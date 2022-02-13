@@ -62,12 +62,13 @@ if 'Pie Chart' in plots:
 	st.pyplot()
 if 'Histogram' in plots:
 	st.subheader("Histogram for Workclass")
-	sns.histplot(x = census_df.loc[census_df['income'] == census_df['income'].value_counts().index[0], 'workclass'])
-	sns.histplot(x = census_df.loc[census_df['income'] == census_df['income'].value_counts().index[1], 'workclass'])
+	sns.histplot(x = census_df['workclass'], hue = 'income', data = census_df)
 	st.pyplot()
 if 'Box Plot' in plots:
 	st.subheader("Box plot for hours-per-week employers work")
-	sns.boxplot(x = census_df['hours-per-week'])
+	sns.boxplot(x = 'hours-per-week', y = 'gender', hue = census_df['gender'], data = census_df)
+	st.pyplot()
+	sns.boxplot(x = 'hours-per-week', y = 'income', hue = census_df['income'], data = census_df)
 	st.pyplot()
 if 'Correlation Heatmap' in plots:
 	st.subheader("Correlation heatmap for dataset")
