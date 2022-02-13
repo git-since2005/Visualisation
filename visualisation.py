@@ -60,6 +60,7 @@ if 'Pie Chart' in plots:
 if 'Histogram' in plots:
 	st.subheader("Histogram for Workclass")
 	plt.hist(x = census_df['workclass'].value_counts(), bins='sturges')
+	plt.xlabel(census_df['workclass'].value_counts().index)
 	st.pyplot()
 if 'Box Plot' in plots:
 	st.subheader("Box plot for hours-per-week employers work")
