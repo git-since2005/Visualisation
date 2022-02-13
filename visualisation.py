@@ -57,10 +57,13 @@ plt.figure(figsize = (17, 6))
 if 'Pie Chart' in plots:
 	plt.pie(census_df['gender'].value_counts(), autopct = '%1.2f%%', explode = np.linspace(.05, .15, len(census_df['gender'].value_counts())), labels = census_df['gender'].value_counts().index)
 	st.pyplot()
+	plt.figure(figsize = (17, 6))
+	plt.pie(census_df['income'].value_counts(), autopct = '%1.2f%%', explode = np.linspace(.05, .15, len(census_df['income'].value_counts())), labels = census_df['income'].value_counts().index)
+	st.pyplot()
 if 'Histogram' in plots:
 	st.subheader("Histogram for Workclass")
-	plt.hist(x = census_df['workclass'].value_counts(), bins='sturges')
-	plt.xlabel(census_df['workclass'].value_counts().index)
+	sns.histplot(x = census_df.loc[census_df['income'] == census_df['income'].value_counts().index[0], 'workclass'])
+	sns.histplot(x = census_df.loc[census_df['income'] == census_df['income'].value_counts().index[1], 'workclass'])
 	st.pyplot()
 if 'Box Plot' in plots:
 	st.subheader("Box plot for hours-per-week employers work")
