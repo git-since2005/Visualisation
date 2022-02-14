@@ -54,22 +54,26 @@ if st.sidebar.checkbox("Show Data"):
 st.sidebar.subheader("Visualisation Selector")
 plots = st.sidebar.multiselect("Input visualisations", ('Histogram', 'Box Plot', 'Pie Chart', 'Correlation Heatmap', 'Pair Plot'))
 plt.figure(figsize = (17, 6))
+cols_hist = st.sidebar.multiselect("Input columns need to plot", tuple(census_df.columns))
+cols_pie = st.sidebar.multiselect("Input columns need to plot for pie", ('gender', 'income'))
+cols_boxplot = st.sidebar.multiselect("Input columns need to plot for boxplot", ("hours-per-week", 'capital-loss', 'capital-gain'))
 if 'Pie Chart' in plots:
-	plt.pie(census_df['gender'].value_counts(), autopct = '%1.2f%%', explode = np.linspace(.05, .15, len(census_df['gender'].value_counts())), labels = census_df['gender'].value_counts().index)
-	st.pyplot()
-	plt.figure(figsize = (17, 6))
-	plt.pie(census_df['income'].value_counts(), autopct = '%1.2f%%', explode = np.linspace(.05, .15, len(census_df['income'].value_counts())), labels = census_df['income'].value_counts().index)
-	st.pyplot()
+	for i in cols_pie:
+		st.subheader(f"Pie chart for {i}")
+		plt.pie(census_df[i].value_counts(), autopct = '%1.2f%%', explode = np.linspace(.05, .15, len(census_df[i].value_counts())), labels = census_df[i].value_counts().index)
+		st.pyplot()
 if 'Histogram' in plots:
-	st.subheader("Histogram for Workclass")
-	sns.histplot(x = census_df['workclass'], hue = 'income', data = census_df)
-	st.pyplot()
+	for i in cols_hist:
+		st.subheader(f"Histogram for {i}")
+		sns.histplot(x = census_df[i], hue = 'income', data = census_df)
+		st.pyplot()
 if 'Box Plot' in plots:
-	st.subheader("Box plot for hours-per-week employers work")
-	sns.boxplot(x = 'hours-per-week', y = 'gender', hue = census_df['gender'], data = census_df)
-	st.pyplot()
-	sns.boxplot(x = 'hours-per-week', y = 'income', hue = census_df['income'], data = census_df)
-	st.pyplot()
+	for i in cols_boxplot:
+		st.subheader(f"Box plot for {i} employers work")
+		sns.boxplot(x = i, y = 'gender', hue = census_df['gender'], data = census_df)
+		st.pyplot()
+		sns.boxplot(x = i, y = 'income', hue = census_df['income'], data = census_df)
+		st.pyplot()
 if 'Correlation Heatmap' in plots:
 	st.subheader("Correlation heatmap for dataset")
 	sns.heatmap(census_df.corr(), annot = True)
@@ -78,3 +82,4 @@ if 'Pair Plot' in plots:
 	st.subheader("Pair Plot for dataset")
 	sns.pairplot(census_df)
 	st.pyplot()
+# print(census_df.info())
