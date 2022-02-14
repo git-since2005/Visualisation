@@ -52,9 +52,9 @@ st.sidebar.title("Graph visualisation app for data")
 if st.sidebar.checkbox("Show Data"):
 	st.dataframe(census_df)
 st.sidebar.subheader("Visualisation Selector")
-plots = st.sidebar.multiselect("Input visualisations", ('Histogram', 'Box Plot', 'Pie Chart', 'Correlation Heatmap', 'Pair Plot'))
+plots = st.sidebar.multiselect("Input visualisations", ('Countplot', 'Box Plot', 'Pie Chart', 'Correlation Heatmap', 'Pair Plot'))
 plt.figure(figsize = (17, 6))
-cols_hist = st.sidebar.multiselect("Input columns need to plot", tuple(census_df.columns))
+cols_count = st.sidebar.multiselect("Input columns need to plot for countplot", tuple(census_df.columns))
 cols_pie = st.sidebar.multiselect("Input columns need to plot for pie", ('gender', 'income'))
 cols_boxplot = st.sidebar.multiselect("Input columns need to plot for boxplot", ("hours-per-week", 'capital-loss', 'capital-gain'))
 if 'Pie Chart' in plots:
@@ -62,10 +62,10 @@ if 'Pie Chart' in plots:
 		st.subheader(f"Pie chart for {i}")
 		plt.pie(census_df[i].value_counts(), autopct = '%1.2f%%', explode = np.linspace(.05, .15, len(census_df[i].value_counts())), labels = census_df[i].value_counts().index)
 		st.pyplot()
-if 'Histogram' in plots:
-	for i in cols_hist:
-		st.subheader(f"Histogram for {i}")
-		sns.histplot(x = census_df[i], hue = 'income', data = census_df)
+if 'Countplot' in plots:
+	for i in cols_count:
+		st.subheader(f"Countplot for {i}")
+		sns.countplot(x = census_df[i], hue = 'income', data = census_df)
 		st.pyplot()
 if 'Box Plot' in plots:
 	for i in cols_boxplot:
